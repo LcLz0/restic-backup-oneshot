@@ -1,6 +1,8 @@
 #!/bin/ash
 set -e
 
+env
+
 if [ "$#" -ge 1 ]; then
   exec $1
   exit 0
