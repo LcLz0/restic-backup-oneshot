@@ -18,6 +18,9 @@ elif [ -z "${RESTIC_REPOSITORY}" ]; then
 elif [ -z "${RESTIC_PASSWORD}" ]; then
   echo "RESTIC_PASSWORD not set. Exiting"
   exit 1
+elif [ -z "${RESTIC_TAG}" ]; then
+  echo "RESTIC_TAG not set. Set to application name. Exiting"
+  exit 1
 fi
 
 if [ -n "${PSQL_HOST}" ]; then
@@ -28,6 +31,6 @@ if [ -n "${PSQL_HOST}" ]; then
   )
 fi
 
-restic backup /backup
+restic backup --tag "${RESTIC_TAG}" /backup
 restic forget --prune --keep-daily 7 --keep-weekly 4
 restic check
