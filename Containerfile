@@ -1,5 +1,5 @@
 FROM alpine:3
-RUN apk add --no-cache restic postregsql-common && \
+RUN apk add --no-cache restic postgresql-client && \
   mkdir /backup /psql-dump
 
 COPY --chmod=0700 ./entrypoint.sh ./psql_dump.sh /usr/local/bin/
