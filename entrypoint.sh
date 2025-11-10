@@ -23,9 +23,18 @@ elif [ -z "${APP_NAME}" ]; then
   exit 1
 fi
 
-if [ -n "${PSQL_HOST}" ]; then
+if [ -n "${PSQL_DATABASE}" ]; then
   echo "Found psql target. Taking psql dump"
-  /usr/local/bin/psql_dump.sh || (
+  if [ -z "${PSQL_USER}" ]; then
+    echo "PSQL_USER not set. Exiting"
+    exit 2
+  elif [ -z "${PSQL_PASS}" ]; then
+    echo "PSQL_PASS not set. Exiting"
+    exit 2
+  fi
+  echo "localhost:5432:${PSQL_DATABASE}:${PSQL_USER}:${PSQL_PASS}" >~/.pgpass
+  chmod 0600 ~/.pgpass
+  pg_dump --clean -h localhost -U "${PSQL_USER}" "${PSQL_DATABASE}" >"/backup/${PSQL_DATABASE}.dump" || (
     echo "Error in psql dump. Exiting"
     exit 2
   )
