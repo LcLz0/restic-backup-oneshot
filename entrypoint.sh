@@ -34,7 +34,6 @@ if [ -n "${PSQL_DATABASE}" ]; then
   fi
   echo "localhost:5432:${PSQL_DATABASE}:${PSQL_USER}:${PSQL_PASS}" >~/.pgpass
   chmod 0600 ~/.pgpass
-  echo "Taking psql dump"
   pg_dump --clean -h localhost -U "${PSQL_USER}" "${PSQL_DATABASE}" >"/backup/${PSQL_DATABASE}.dump" || (
     echo "Error in psql dump. Exiting"
     exit 2
