@@ -41,6 +41,8 @@ if [ -n "${PSQL_DATABASE}" ]; then
   echo "psql dump successful"
 fi
 
+env >/backup/env.file
+
 restic backup --tag "${APP_NAME}" /backup
 restic forget --tag "${APP_NAME}" --prune --keep-daily 7 --keep-weekly 4
 restic check
